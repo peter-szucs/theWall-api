@@ -16,19 +16,26 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .center) {
-                List(posts) { post in
-                    ListCell(post: post)
-                }
-                .padding()
+//                List(posts) { post in
+//                    ListCell(post: post)
+//                }
+//                .padding()
+                ScrollView {
+                    ForEach(posts) {post in
+                        ListCell(post: post)
+                    }
+                }.padding()
                 .navigationBarTitle("the Wall")
+                
 //                Spacer()
                 
                 NavigationLink(destination: NewPostView()) {
                     Text("Nytt Inlägg")
                         .font(.headline)
                         .padding()
-                        .foregroundColor(.black)
-                        .background(Color(.sRGB, red: 40/255, green: 170/255, blue: 10/255).opacity(0.6))
+                        .foregroundColor(.primary)
+                        .background(Color("ButtonBackground"))
+//                        .background(Color(.sRGB, red: 40/255, green: 170/255, blue: 10/255).opacity(0.6))
                         .cornerRadius(5)
                     
                 }
@@ -40,6 +47,7 @@ struct ContentView: View {
                 }
                 
             }
+            
         }
         
 //        .background(Image("brick+wall"))
@@ -54,6 +62,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView()
+            ContentView()
+                .preferredColorScheme(.dark)
+
+        }
+            
     }
 }

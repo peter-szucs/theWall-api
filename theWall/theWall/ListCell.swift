@@ -14,26 +14,38 @@ struct ListCell: View {
     var post = PostObject(author: "Peter", post: "I am a happy camper. Out to camp all day, fish among the seas, lorem with the ipsum. As the dolor taketh away.")
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(post.author).font(.headline).multilineTextAlignment(.leading).padding(.vertical, 10.0)
-            Text(post.post)
+        VStack() {
             HStack {
+                VStack(alignment: .leading) {
+                    Text(post.author).font(.headline).multilineTextAlignment(.leading).padding(.vertical, 10.0)
+                    Text(post.post)
+                    Text("\(post.id)").font(.caption)
+                    HStack {
+                        Spacer()
+                        Text("Replies: 0")
+                            .font(.subheadline)
+                            .padding(.vertical, 10.0)
+                    }
+                }
                 Spacer()
-                Text("Replies: 0")
-                    .font(.subheadline)
-                    .padding(.top, 10.0)
             }
-//            Spacer()
-                
+            
+            .padding()
         }
-        .padding(.horizontal, 10.0)
+//        .padding(.horizontal, 10.0)
 //        .frame(width: 350.0)
+        .background(Color("MessageBackground"))
         .cornerRadius(10)
-        .overlay(RoundedRectangle(cornerRadius: 10)
-        .stroke(Color(.lightGray)))
-        .background(Color(.sRGB, red: 210/255, green: 210/255, blue: 200/255, opacity: 0.3))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color(.lightGray), lineWidth: 1)
+        )
         
+//        .background(Color(.sRGB, red: 200/255, green: 200/255, blue: 230/255, opacity: 0.6))
+        
+//        padding([.top, .horizontal])
     }
+    
 }
 
 struct ListCell_Previews: PreviewProvider {

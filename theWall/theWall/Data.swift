@@ -15,30 +15,36 @@ struct PostObject: Codable, Identifiable {
     
 }
 
+struct PostToPost: Codable {
+    var author: String = ""
+    var post: String = ""
+}
+
 enum APIError: Error {
-    case resonseProblem
+    case responseProblem
     case decodingProblem
     case encodingProblem
 }
 
 struct ApiRequest {
-    func postToApi (_ post: PostObject, completion: @escaping(Result<PostObject, APIError>) -> Void) {
+    func postToApi (_ postToSave: PostToPost, completion: @escaping(Result<PostToPost, APIError>) -> Void) {
+        print(postToSave.post)
         guard let url = URL(string: "https://us-central1-thewall-api.cloudfunctions.net/posts") else { return }
         do {
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = "POST"
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = try JSONEncoder().encode(post)
+            urlRequest.httpBody = try JSONEncoder().encode(postToSave)
             
-            let dataTask = URLSession.shared.dataTask(with: url) { data, response, _ in
+            let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, _ in
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
-                    completion(.failure(.resonseProblem))
+                    completion(.failure(.responseProblem))
                     return
                 }
                 
                 do {
-                    let messageData = try JSONDecoder().decode(PostObject.self, from: jsonData)
-                    completion(.success(messageData))
+                    let postData = try JSONDecoder().decode(PostToPost.self, from: jsonData)
+                    completion(.success(postData))
                 } catch {
                     completion(.failure(.decodingProblem))
                 }
