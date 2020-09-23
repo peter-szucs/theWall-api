@@ -8,16 +8,21 @@
 
 import SwiftUI
 
+private var url: String = "https://us-central1-thewall-api.cloudfunctions.net/posts"
+
 struct PostObject: Codable, Identifiable {
-    let id = UUID()
+//    let id = UUID()
+    var id: String = ""
     var author: String = ""
     var post: String = ""
+    var time: String = ""
     
 }
 
 struct PostToPost: Codable {
     var author: String = ""
     var post: String = ""
+    var time: String = ""
 }
 
 enum APIError: Error {
@@ -29,7 +34,7 @@ enum APIError: Error {
 struct ApiRequest {
     func postToApi (_ postToSave: PostToPost, completion: @escaping(Result<PostToPost, APIError>) -> Void) {
         print(postToSave.post)
-        guard let url = URL(string: "https://us-central1-thewall-api.cloudfunctions.net/posts") else { return }
+        guard let url = URL(string: url) else { return }
         do {
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = "POST"
@@ -37,7 +42,7 @@ struct ApiRequest {
             urlRequest.httpBody = try JSONEncoder().encode(postToSave)
             
             let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, _ in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201, let jsonData = data else {
                     completion(.failure(.responseProblem))
                     return
                 }
@@ -58,12 +63,15 @@ struct ApiRequest {
 
 class Api {
     func getPosts(completion: @escaping([PostObject]) -> ()) {
-        guard let url = URL(string: "https://us-central1-thewall-api.cloudfunctions.net/posts") else { return }
+        guard let url = URL(string: url) else { return }
         URLSession.shared.dataTask(with: url) { (data, _, _) in
             let posts = try! JSONDecoder().decode([PostObject].self, from: data!)
             
             DispatchQueue.main.async {
-                completion(posts)
+                let sortedResult = posts.sorted {
+                    $0.time > $1.time
+                }
+                completion(sortedResult)
             }
         }
         .resume()

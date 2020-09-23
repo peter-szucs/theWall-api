@@ -37,9 +37,13 @@ wallApp.get("/:id", async(req, res) => {
 wallApp.post("/", async(req, res) => {
     const post = req.body;
 
-    await db.collection("posts").add(post);
+    const docRef = await db.collection("posts").add(post);
+    const user = await docRef.get()
 
-    res.status(201).send();
+    const postId = user.id;
+    const postData = user.data();
+
+    res.status(201).send(JSON.stringify({ id: postId, ...postData }));
 });
 
 wallApp.put("/:id", async(req, res) => {

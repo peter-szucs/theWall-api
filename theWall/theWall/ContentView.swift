@@ -12,45 +12,39 @@ import Combine
 struct ContentView: View {
     
     @State var posts: [PostObject] = []
+    @State private var showingAlert = false
     
     var body: some View {
-        NavigationView {
-            VStack(alignment: .center) {
-//                List(posts) { post in
-//                    ListCell(post: post)
-//                }
-//                .padding()
-                ScrollView {
-                    ForEach(posts) {post in
-                        ListCell(post: post)
-                    }
-                }.padding()
-                .navigationBarTitle("the Wall")
-                
-//                Spacer()
-                
-                NavigationLink(destination: NewPostView()) {
-                    Text("Nytt Inlägg")
-                        .font(.headline)
-                        .padding()
-                        .foregroundColor(.primary)
-                        .background(Color("ButtonBackground"))
-//                        .background(Color(.sRGB, red: 40/255, green: 170/255, blue: 10/255).opacity(0.6))
-                        .cornerRadius(5)
+        ZStack {
+            NavigationView {
+                VStack(alignment: .center) {
+
+                    ScrollView {
+                        ForEach(posts, id: \.time) {post in
+                            ListCell(post: post)
+                        }
+                    }.padding()
+                    .navigationBarTitle("the Wall")
                     
+                    
+                    NavigationLink(destination: NewPostView()) {
+                        Text("Nytt Inlägg")
+                            .font(.headline)
+                            .padding()
+                            .foregroundColor(.primary)
+                            .background(Color("ButtonBackground"))
+                            .cornerRadius(5)
+                        
+                    }
+                    .padding(.bottom)
+                    
+                    .onAppear() {
+                        self.getPosts()
+                        UITableView.appearance().separatorStyle = .none
+                    }
                 }
-                .padding(.bottom)
-                
-                .onAppear() {
-                    self.getPosts()
-                    UITableView.appearance().separatorStyle = .none
-                }
-                
             }
-            
         }
-        
-//        .background(Image("brick+wall"))
     }
     
     func getPosts() {
@@ -66,8 +60,7 @@ struct ContentView_Previews: PreviewProvider {
             ContentView()
             ContentView()
                 .preferredColorScheme(.dark)
-
         }
-            
     }
 }
+

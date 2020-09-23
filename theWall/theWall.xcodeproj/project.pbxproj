@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5205A2B8251A98BC009604A1 /* ListTry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2B7251A98BC009604A1 /* ListTry.swift */; };
 		52C7C3DA2518FD9300343D44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C7C3D92518FD9300343D44 /* AppDelegate.swift */; };
 		52C7C3DC2518FD9300343D44 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C7C3DB2518FD9300343D44 /* SceneDelegate.swift */; };
 		52C7C3DE2518FD9300343D44 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C7C3DD2518FD9300343D44 /* ContentView.swift */; };
@@ -20,7 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5205A2B7251A98BC009604A1 /* ListTry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTry.swift; sourceTree = "<group>"; };
 		52C7C3D62518FD9300343D44 /* theWall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = theWall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C7C3D92518FD9300343D44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52C7C3DB2518FD9300343D44 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 				52C7C3D92518FD9300343D44 /* AppDelegate.swift */,
 				52C7C3DB2518FD9300343D44 /* SceneDelegate.swift */,
 				52C7C3DD2518FD9300343D44 /* ContentView.swift */,
-				5205A2B7251A98BC009604A1 /* ListTry.swift */,
 				52C7C3F3251A2E2800343D44 /* NewPostView.swift */,
 				52C7C3DF2518FD9900343D44 /* Assets.xcassets */,
 				52C7C3E42518FD9900343D44 /* LaunchScreen.storyboard */,
@@ -164,7 +161,6 @@
 				52C7C3F4251A2E2800343D44 /* NewPostView.swift in Sources */,
 				52C7C3F2251A19CC00343D44 /* ListCell.swift in Sources */,
 				52C7C3EE25190A3800343D44 /* Data.swift in Sources */,
-				5205A2B8251A98BC009604A1 /* ListTry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,15 +11,19 @@ import SwiftUI
 struct ListCell: View {
 //    var author: String = "Peter"
 //    var post: String = "I am a happy camper. Out to camp all day, fish among the seas, lorem with the ipsum. As the dolor taketh away."
-    var post = PostObject(author: "Peter", post: "I am a happy camper. Out to camp all day, fish among the seas, lorem with the ipsum. As the dolor taketh away.")
+    var post = PostObject(author: "Peter", post: "I am a happy camper. Out to camp all day, fish among the seas, lorem with the ipsum. As the dolor taketh away.", time: "2020-09-23, 11:01")
     
     var body: some View {
         VStack() {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(post.author).font(.headline).multilineTextAlignment(.leading).padding(.vertical, 10.0)
+                    HStack {
+                        Text(post.author).font(.headline).multilineTextAlignment(.leading).padding(.vertical, 10.0)
+                        Spacer()
+                        Text(post.time).font(.caption)
+                    }
                     Text(post.post)
-                    Text("\(post.id)").font(.caption)
+                    
                     HStack {
                         Spacer()
                         Text("Replies: 0")
