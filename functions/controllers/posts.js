@@ -38,7 +38,7 @@ wallApp.post("/", async(req, res) => {
     const post = req.body;
 
     const docRef = await db.collection("posts").add(post);
-    const user = await docRef.get()
+    const user = await docRef.get();
 
     const postId = user.id;
     const postData = user.data();
@@ -51,7 +51,7 @@ wallApp.put("/:id", async(req, res) => {
 
     await db.collection("posts").doc(req.params.id).update(body);
 
-    res.send(200).send();
+    res.status(200).send();
 });
 
 wallApp.delete("/:id", async(req, res) => {

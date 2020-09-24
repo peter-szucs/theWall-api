@@ -32,24 +32,40 @@ enum APIError: Error {
 }
 
 struct ApiRequest {
-    func postToApi (_ postToSave: PostToPost, completion: @escaping(Result<PostToPost, APIError>) -> Void) {
-        print(postToSave.post)
-        guard let url = URL(string: url) else { return }
+    func postToApi (_ postToSave: PostObject, httpMethod: String, statusCode: Int, time: String, completion: @escaping(Result<PostObject, APIError>) -> Void) {
+        let endpointUrlString: String
+        switch (httpMethod) {
+            case "POST":
+                endpointUrlString = url
+            case "PUT":
+                endpointUrlString = url + "/\(postToSave.id)"
+            case "DELETE":
+                endpointUrlString = url + "/\(postToSave.id)"
+                
+            default:
+                return
+        }
+        guard let endpointUrl = URL(string: endpointUrlString) else { return }
+        let postToPost = PostToPost(author: postToSave.author, post: postToSave.post, time: time)
         do {
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = "POST"
+            var urlRequest = URLRequest(url: endpointUrl)
+            urlRequest.httpMethod = httpMethod
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = try JSONEncoder().encode(postToSave)
+            urlRequest.httpBody = try JSONEncoder().encode(postToPost)
             
             let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, _ in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201, let jsonData = data else {
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == statusCode, let jsonData = data else {
                     completion(.failure(.responseProblem))
                     return
                 }
                 
                 do {
-                    let postData = try JSONDecoder().decode(PostToPost.self, from: jsonData)
-                    completion(.success(postData))
+                    if statusCode == 200 {
+                        completion(.success(postToSave))
+                    } else {
+                        let postData = try JSONDecoder().decode(PostObject.self, from: jsonData)
+                        completion(.success(postData))
+                    }
                 } catch {
                     completion(.failure(.decodingProblem))
                 }

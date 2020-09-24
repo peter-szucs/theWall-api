@@ -12,36 +12,49 @@ import Combine
 struct ContentView: View {
     
     @State var posts: [PostObject] = []
-    @State private var showingAlert = false
+//    @State private var showingAlert = false
+    @State private var showEdit = false
+    @State private var selectedPost = PostObject(id: "", author: "", post: "", time: "")
     
     var body: some View {
-        ZStack {
-            NavigationView {
-                VStack(alignment: .center) {
+        NavigationView {
+            VStack(alignment: .center) {
 
-                    ScrollView {
-                        ForEach(posts, id: \.time) {post in
+                ScrollView {
+                    ForEach(posts, id: \.id) { post in
+                        NavigationLink(destination: NewPostView(isEditing: true, editPost: post)) {
                             ListCell(post: post)
+//                                .onTapGesture {
+//                                print("Klickade: \(post.id)")
+//                                showEdit.toggle()
+//                                selectedPost = post
+//                            }
+                                .foregroundColor(.primary)
                         }
-                    }.padding()
-                    .navigationBarTitle("the Wall")
-                    
-                    
-                    NavigationLink(destination: NewPostView()) {
-                        Text("Nytt Inlägg")
-                            .font(.headline)
-                            .padding()
-                            .foregroundColor(.primary)
-                            .background(Color("ButtonBackground"))
-                            .cornerRadius(5)
                         
                     }
-                    .padding(.bottom)
+//                    .navigate(to: NewPostView(isEditing: true, editPost: selectedPost), when: $showModal)
                     
-                    .onAppear() {
-                        self.getPosts()
-                        UITableView.appearance().separatorStyle = .none
-                    }
+                    
+                }
+                .padding()
+                .navigationBarTitle("the Wall")
+                
+                
+                NavigationLink(destination: NewPostView(isEditing: false, editPost: PostObject(id: "", author: "", post: "", time: ""))) {
+                    Text("Nytt Inlägg")
+                        .font(.headline)
+                        .padding()
+                        .foregroundColor(.primary)
+                        .background(Color("ButtonBackground"))
+                        .cornerRadius(5)
+                    
+                }
+                .padding(.bottom)
+                
+                .onAppear() {
+                    self.getPosts()
+                    UITableView.appearance().separatorStyle = .none
                 }
             }
         }
@@ -52,6 +65,8 @@ struct ContentView: View {
             self.posts = post
         }
     }
+    
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -63,4 +78,22 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
+
+//extension View {
+//    func navigate<NewView: View>(to view: NewView, when binding: Binding<Bool>) -> some View {
+//        NavigationView {
+//            ZStack {
+//                self
+//                    .navigationBarTitle("")
+//                    .navigationBarHidden(true)
+//                NavigationLink(
+//                    destination: view,
+//                    isActive: binding
+//                ) {
+//                    EmptyView()
+//                }
+//            }
+//        }
+//    }
+//}
 
